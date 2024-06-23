@@ -1,0 +1,103 @@
+
+.btw{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* ---- */
+#base_content{
+    padding: 0 98px;
+}
+#main_content{
+    width: 100%;
+}
+
+.icon-animation {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.rotate-enter {
+    transform: rotate(0deg);
+}
+
+.rotate-exit {
+    transform: rotate(180deg);
+}
+
+/* Side menu animation */
+#side_menu {
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+#side_menu.open {
+    width: 15%;
+    opacity: 1;
+}
+
+.card-list{
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.card-list:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- InBuild */
+
+/* #components-form-demo-normal-login .login-form {
+    max-width: 300px;
+  }
+  #components-form-demo-normal-login .login-form-forgot {
+    float: right;
+  }
+  #components-form-demo-normal-login .ant-col-rtl .login-form-forgot {
+    float: left;
+  }
+  #components-form-demo-normal-login .login-form-button {
+    width: 100%;
+  }
+   */
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+    #base_content{
+        padding: 0 10px;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    #base_content{
+        padding: 0 20px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #base_content{
+        padding: 0 45px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    #base_content{
+        padding: 0 75px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    #base_content{
+        padding: 0 98px;
+    }
+}
