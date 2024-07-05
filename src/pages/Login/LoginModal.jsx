@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import Home from '../Home/Home'
 import { Button, Checkbox, Form, Input, Modal, message } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { baseUrl } from '../../utils/GlobalVariable'
+import { AccountsBaseUrl, baseUrl } from '../../utils/GlobalVariable'
 import Cookies from 'js-cookie';
 import axios from 'axios'
 
 
 const LoginModal = (props) => {
+  const primaryColor = '#051622'
+  const secondaryColor = '#1BA098'
+  const textColor = '#DEB992'
   const [form] = Form.useForm();
   const [isForgot, setIsForgot] = useState(false)
   const [isRegister, setIsRegister] = useState(false)
@@ -32,7 +35,7 @@ const LoginModal = (props) => {
         'password2':values.password2,
       }
       try {
-          const response = await fetch(baseUrl+'v1/user/signup/', {
+          const response = await fetch(AccountsBaseUrl+'/v1/user/signup/', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -76,7 +79,7 @@ const LoginModal = (props) => {
         'otp':values.otp,
       }
       try {
-          const response = await fetch(baseUrl+'v1/user/verify-email/', {
+          const response = await fetch(AccountsBaseUrl+'/v1/user/verify-email/', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -120,7 +123,7 @@ const LoginModal = (props) => {
         'password':values.password1,
       }
       try {
-          const response = await fetch(baseUrl+'v1/user/login/', {
+          const response = await fetch(AccountsBaseUrl+'/v1/user/login/', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -174,7 +177,7 @@ const LoginModal = (props) => {
   const getUserDetails = async () => {
     const accessToken = Cookies.get('access');
     try {
-      const response = await axios.get(baseUrl+'v1/user/get-user-details/', {
+      const response = await axios.get(AccountsBaseUrl+'/v1/user/get-user-details/', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -183,7 +186,7 @@ const LoginModal = (props) => {
       Cookies.set('username', response.data.data.username); 
       Cookies.set('email', response.data.data.email); 
       Cookies.set('id', response.data.data.id); 
-      props.setIsLoggedIn(true)
+      props.setUsername(response.data.data.username)
 
     } catch (error) {
       console.error('Error calling protected API:', error);
@@ -192,7 +195,7 @@ const LoginModal = (props) => {
 
   return (
         <Modal
-          title={<h2>{isRegister ? "Register Account" : "Account Login"}</h2>}
+          title={<h2 style={{background: primaryColor, color:textColor}}>{isRegister ? "Register Account" : "Account Login"}</h2>}
           centered
           open={props.loginOpen}
           onOk={() => props.setLoginOpen(false)}
@@ -200,6 +203,8 @@ const LoginModal = (props) => {
           footer={null}
           maskClosable={false}
           // styles={{body:{background:'gray'}}}
+          className='dark-modal'
+          styles={{content:{background: primaryColor}}}
         >
           <Form
             form={form}
@@ -219,10 +224,8 @@ const LoginModal = (props) => {
                   message: 'Please input your Username!',
                 },
               ]}
-              // validateStatus={error.check_username && "error"}
-              // help={error.check_username && "ERRORR"}
             >
-              <Input disabled={isOTP} prefix={<UserOutlined  />} placeholder="Username" />
+              <Input className='primary-input' disabled={isOTP} prefix={<UserOutlined  />} placeholder="Username" />
             </Form.Item>
             <Form.Item
               name="email"
@@ -237,7 +240,7 @@ const LoginModal = (props) => {
                 },
               ]}
             >
-              <Input disabled={isOTP} type='email' prefix={<UserOutlined  />} placeholder="Email" />
+              <Input className='primary-input' disabled={isOTP} type='email' prefix={<UserOutlined  />} placeholder="Email" />
             </Form.Item>
             </>
             :
@@ -250,12 +253,12 @@ const LoginModal = (props) => {
                 },
               ]}
             >
-              <Input prefix={<UserOutlined  />} placeholder="Username or Email" />
+              <Input className='primary-input' prefix={<UserOutlined  />} placeholder="Username or Email" />
             </Form.Item>
             }
             {isOTP ?
               <Form.Item name='otp' label="OTP" hasFeedback >
-                <Input.OTP />
+                <Input.OTP className='primary-input' />
               </Form.Item>
             :
               <>
@@ -269,6 +272,7 @@ const LoginModal = (props) => {
                   ]}
                 >
                   <Input
+                    className='primary-input'
                     prefix={<LockOutlined  />}
                     type="password"
                     placeholder="Password"
@@ -294,6 +298,7 @@ const LoginModal = (props) => {
                   ]}
                 >
                   <Input
+                    className='primary-input'
                     prefix={<LockOutlined  />}
                     type="password"
                     placeholder="Retype Password"
@@ -304,25 +309,25 @@ const LoginModal = (props) => {
             }
             
               {!isRegister &&
-              <a  href="" > Forgot password?    </a>
+              <a style={{color: secondaryColor}} href="" > Forgot password?    </a>
               }
 
             <Form.Item style={{marginTop:'10px'}}>
               {isRegister ? 
                 <>
-                <Button type="primary" block htmlType="submit" loading={loader.is_register} >
+                <Button className='btn-secondary' type="primary" block htmlType="submit" loading={loader.is_register} >
                   {isOTP ? "Verify OTP" :"Register"}
                 </Button>
-                <Button type="link" block onClick={() => {setIsRegister(false)}} >
+                <Button style={{color: secondaryColor}} type="link" block onClick={() => {setIsRegister(false)}} >
                   Back to log in!
                 </Button>
                 </>
                 :  
                 <>
-                <Button type="primary" block htmlType="submit" loading={loader.is_login} >
+                <Button className='btn-secondary' type="primary" block htmlType="submit" loading={loader.is_login} >
                   Log in
                 </Button>
-                <Button type="link" block onClick={() => {setIsRegister(true)}} >
+                <Button style={{color: secondaryColor}} type="link" block onClick={() => {setIsRegister(true)}} >
                   Register now!
                 </Button>
                 </>
